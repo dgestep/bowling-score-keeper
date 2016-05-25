@@ -20,7 +20,6 @@ public interface PrintManager {
 
     /**
      * Prints the supplied game to the supplied output stream.
-     * @param name the bowlers name.
      * @param game the game.
      * @param out the output stream to print the game to.
      */

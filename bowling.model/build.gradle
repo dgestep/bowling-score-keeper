@@ -8,36 +8,10 @@ repositories {
     mavenCentral()
 }
 
-sourceSets.all { set ->
-    def jarTask = task("${set.name}Jar", type: Jar) {
-        baseName = baseName + "-$set.name"
-        from set.output
-    }
-
-    artifacts {
-        archives jarTask
-    }
-}
-
-sourceSets {
-    api
-    impl
-}
-
 dependencies {
-    apiCompile 'com.google.guava:guava:19.0'
-    implCompile 'com.google.guava:guava:19.0'
-    implCompile sourceSets.api.output
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.guava:guava:19.0'
 
     testCompile 'junit:junit:4.9'
     testCompile 'com.google.guava:guava:19.0'
-    testCompile sourceSets.api.output
-    testCompile sourceSets.impl.output
-    runtime configurations.apiRuntime
-    runtime configurations.implRuntime
-}
-
-jar {
-    from sourceSets.api.output
-    from sourceSets.impl.output
 }
