@@ -8,8 +8,9 @@ repositories {
     mavenCentral()
 }
 
+build.dependsOn javadoc
+
 dependencies {
-    compile 'com.google.guava:guava:19.0'
     compile 'com.google.guava:guava:19.0'
 
     testCompile 'junit:junit:4.9'
