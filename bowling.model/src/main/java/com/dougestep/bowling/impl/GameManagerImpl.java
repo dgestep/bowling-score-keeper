@@ -74,6 +74,7 @@ public class GameManagerImpl implements GameManager {
         Verify.verify(frame.getFirstBall() >= 0 && frame.getFirstBall() <= 10, "Invalid value for the first ball: %s", frame.getFirstBall());
         Verify.verify(frame.getSecondBall() >= 0 && frame.getSecondBall() <= 10, "Invalid value for the second ball: %s", frame.getSecondBall());
         Verify.verify(frame.getScore() >= 0 && frame.getScore() <= 300, "The score must be a value between 0 and 300. Received: %s", frame.getScore());
+        Verify.verify(frame.getFrameTotal() <= 10, "The sum of the first and second ball can not be greater than 10.");
     }
 
     @Override

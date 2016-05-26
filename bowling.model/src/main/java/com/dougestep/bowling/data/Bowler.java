@@ -52,26 +52,50 @@ public class Bowler implements Serializable {
         setLastName(lastName);
     }
 
+    /**
+     * Returns a {@link UUID} that uniquely identifying this bowler.
+     * @return the UUID.
+     */
     public UUID getUid() {
         return uid;
     }
 
+    /**
+     * Sets the {@link UUID} that uniquely identifying this bowler.
+     * @param uid the UUID.
+     */
     public void setUid(final UUID uid) {
         this.uid = uid;
     }
 
+    /**
+     * Returns the bowlers first name.
+     * @return the first name.
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Sets the bowlers first name.
+     * @param firstName the first name.
+     */
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Returns the bowlers last name.
+     * @return the last name.
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Sets the bowlers last name.
+     * @param lastName the last name.
+     */
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }

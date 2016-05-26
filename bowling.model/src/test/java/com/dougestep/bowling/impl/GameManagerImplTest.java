@@ -19,6 +19,40 @@ public class GameManagerImplTest {
             processor.addFrame(null);
         } catch (VerifyException ve) {
             // expected
+            System.out.println(ve.getMessage());
+        }
+    }
+
+    @Test
+    public void testAddFrameToHighScore() {
+        try {
+            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
+            processor.addFrame(new BowlingFrame(8,9));
+        } catch (VerifyException ve) {
+            // expected
+            System.out.println(ve.getMessage());
+        }
+    }
+
+    @Test
+    public void testAddInvalidFirstBall() {
+        try {
+            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
+            processor.addFrame(new BowlingFrame(11,0));
+        } catch (VerifyException ve) {
+            // expected
+            System.out.println(ve.getMessage());
+        }
+    }
+
+    @Test
+    public void testAddInvalidSecondBall() {
+        try {
+            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
+            processor.addFrame(new BowlingFrame(0,11));
+        } catch (VerifyException ve) {
+            // expected
+            System.out.println(ve.getMessage());
         }
     }
 

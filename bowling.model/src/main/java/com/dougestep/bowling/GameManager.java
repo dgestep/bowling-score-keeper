@@ -48,7 +48,7 @@ public interface GameManager {
     BowlingFrame retrieveFrame(int frameNumber);
 
     /**
-     * Returns the {@link Game} element associated wit this instance.
+     * Returns the {@link Game} element associated with this instance.
      * @return the game.
      */
     Game getGame();
