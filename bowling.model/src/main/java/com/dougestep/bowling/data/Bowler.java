@@ -11,7 +11,7 @@ import com.google.common.base.Objects;
  *
  * @author dougestep
  */
-public class Bowler implements Serializable {
+public class Bowler implements Serializable, Comparable<Bowler> {
     private static final long serialVersionUID = -7660000888725336033L;
     private UUID uid;
     private String firstName;
@@ -120,5 +120,17 @@ public class Bowler implements Serializable {
         str.add("firstName", firstName);
         str.add("lastName", lastName);
         return str.toString();
+    }
+
+    @Override
+    public int compareTo(final Bowler obj) {
+        if (lastName == null || firstName == null) { return -1; }
+        
+        int rc = lastName.compareTo(obj.lastName);
+        if (rc == 0) { 
+            rc = firstName.compareTo(obj.firstName);
+        }
+        
+        return rc;
     }
 }

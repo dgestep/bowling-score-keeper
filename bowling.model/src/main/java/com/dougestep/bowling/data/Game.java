@@ -13,7 +13,7 @@ import com.google.common.base.Objects;
  *
  * @author dougestep
  */
-public class Game implements Serializable {
+public class Game implements Serializable, CompetitionEntity {
     private static final long serialVersionUID = 751620950527583199L;
     private UUID uid;
     private List<BowlingFrame> frames;
