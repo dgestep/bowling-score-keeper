@@ -1,7 +1,7 @@
 # Bowling Score Keeper
-A very simple Java API for scoring and printing one or more bowling games.
+An easy Java API for scoring and printing one or more bowling games.
 
-### A single game
+## A single game
 
 ```Java
 Bowler bowler = new Bowler()
@@ -11,7 +11,7 @@ GameManager game = GameManagerImpl.newGame(bowler);
 
 game.addFrame(new BowlingFrame(8, 1)); // open
     .addFrame(new BowlingFrame(8, 2)); // spare
-    .addFrame(new BowlingFrame(10)); // strike
+    .addFrame(BowlingFrame.strike()); // strike
 
 // simple print
 System.out.println(game.getGame().getScore()); // 39
@@ -21,7 +21,7 @@ PrintManager printManager = PrintManagerImpl.newGame();
 printManager.printGame(processor.getGame(), System.out);
 ```
 
-### Multiple games
+## Multiple games
 ```Java
 Bowler christene = new Bowler()
     .setFirstName("Christene")
