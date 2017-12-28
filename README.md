@@ -104,8 +104,7 @@ printManager.printGames(games, System.out);
 // Doug Estep score a 212.
 ```
 
-![Game Screen Shot]
-(https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
+![Game Screen Shot](https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
 
 
 # Intellij Import
