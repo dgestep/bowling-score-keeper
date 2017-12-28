@@ -98,16 +98,15 @@ printManager.printGames(games, System.out);
 
 // produces a score card with 4 games
 
-![Game Screen Shot]
-(https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
-
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-
 // Christene Kuhn scores a 99
 // Chris Kuhn scores a 155
 // Gwen Estep scores a 127
 // Doug Estep score a 212.
 ```
+
+![Game Screen Shot]
+(https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
+
 
 # Intellij Import
 To author the code in Intellij, clone this repo and perform the following steps:
