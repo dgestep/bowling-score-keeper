@@ -124,4 +124,4 @@ You can build the project by executing this at the terminal within the bowling-s
 ./gradlew clean build
 ```
 
-This builds a JAR file in the build/libs folder called, bowling.model-1.0.jar. To change the version number on the JAR, change the "version" property set within the build.gradle file.
+This builds a JAR file in the build/libs folder called, bowling.model-1.5.jar. (At the time of this writing, the version was 1.5). To change the version number on the JAR, change the "version" property within the build.gradle file.
