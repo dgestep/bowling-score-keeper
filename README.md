@@ -7,7 +7,7 @@ A very simple Java API for scoring and printing one or more bowling games.
 Bowler bowler = new Bowler()
     .setFirstName("Wilma")
     .setLastName("Flintstone");
-GameManager game = GameManagerImpl.newInstance(bowler);
+GameManager game = GameManagerImpl.newGame(bowler);
 
 game.addFrame(new BowlingFrame(8, 1)); // open
     .addFrame(new BowlingFrame(8, 2)); // spare
@@ -17,7 +17,7 @@ game.addFrame(new BowlingFrame(8, 1)); // open
 System.out.println(game.getGame().getScore()); // 39
 
 // produces a bowling score card
-PrintManager printManager = PrintManagerImpl.newInstance();
+PrintManager printManager = PrintManagerImpl.newGame();
 printManager.printGame(processor.getGame(), System.out);
 ```
 
@@ -92,14 +92,13 @@ Game game4 = GameManagerImpl.newGame(doug)
         .addFrame(BowlingFrame.oneBall(9))
         .getGame();
 
-PrintManager printManager = PrintManagerImpl.newInstance();
+PrintManager printManager = PrintManagerImpl.newGame();
 Game[] games = {game1, game2, game3, game4};
 printManager.printGames(games, System.out);
 
 // produces a score card with 4 games
 
-![Game Screen Shot](./game.png)
-Format: ![Alt Text](url)
+![Game Screen Shot.](./game.png)
 
 
 // Christene Kuhn scores a 99
