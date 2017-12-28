@@ -29,6 +29,7 @@ public class Game implements Serializable {
 
     /**
      * Creates an instance of this class.
+     *
      * @param uid unique ID for the game.
      */
     public Game(final UUID uid) {
@@ -37,6 +38,7 @@ public class Game implements Serializable {
 
     /**
      * Returns a {@link UUID} that uniquely identifying this game.
+     *
      * @return the UUID.
      */
     public UUID getUid() {
@@ -45,6 +47,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the {@link UUID} that uniquely identifying this game.
+     *
      * @param uid the UUID.
      */
     public void setUid(final UUID uid) {
@@ -53,6 +56,7 @@ public class Game implements Serializable {
 
     /**
      * Returns a list of bowling frames recorded for this game.
+     *
      * @return the bowling frames.
      */
     public List<BowlingFrame> getFrames() {
@@ -61,6 +65,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the list of bowling frames recorded for this game.
+     *
      * @param frames the bowling frames.
      */
     public void setFrames(final List<BowlingFrame> frames) {
@@ -69,6 +74,7 @@ public class Game implements Serializable {
 
     /**
      * Adds the supplied bowling frame to the list of bowling frames recorded for this game.
+     *
      * @param frame the bowling frame.
      */
     public void addFrame(final BowlingFrame frame) {
@@ -91,6 +97,7 @@ public class Game implements Serializable {
 
     /**
      * Returns the number of bowling frames recorded for this game.
+     *
      * @return the number of bowling frames.
      */
     public int getNumberOfFrames() {
@@ -99,6 +106,7 @@ public class Game implements Serializable {
 
     /**
      * Returns the score for this game.
+     *
      * @return the score.
      */
     public int getScore() {
@@ -107,6 +115,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the score for this game.
+     *
      * @param score the score.
      */
     public void setScore(final int score) {
@@ -115,6 +124,7 @@ public class Game implements Serializable {
 
     /**
      * Returns true if this game has completed.
+     *
      * @return true if completed.
      */
     public boolean isComplete() {
@@ -123,6 +133,7 @@ public class Game implements Serializable {
 
     /**
      * Set to true to indicate that this game has completed.
+     *
      * @param complete true if completed.
      */
     public void setComplete(final boolean complete) {
@@ -131,6 +142,7 @@ public class Game implements Serializable {
 
     /**
      * Returns the bowler associated with this game.
+     *
      * @return the bowler.
      */
     public Bowler getBowler() {
@@ -139,6 +151,7 @@ public class Game implements Serializable {
 
     /**
      * Sets the bowler that is bowling in this game.
+     *
      * @param bowler the bowler.
      */
     public void setBowler(final Bowler bowler) {
@@ -147,8 +160,12 @@ public class Game implements Serializable {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
         final Game other = (Game) obj;
         return Objects.equal(this.uid, other.uid);

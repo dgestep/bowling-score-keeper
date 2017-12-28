@@ -3,7 +3,7 @@ A very simple Java API for scoring and printing one or more bowling games.
 
 ### A single game
 
-```sh
+```Java
 Bowler bowler = new Bowler("Wilma", "Flintstone");
 GameManager game = new GameManagerImpl(bowler);
 
@@ -19,7 +19,7 @@ printManager.printGame(processor.getGame(), System.out);
 ```
 
 ### Multiple games
-```sh
+```Java
 GameManagerImpl game1 = new GameManagerImpl(new Bowler("Christene", "Kuhn"));
 game1.addFrames(new BowlingFrame[] {
    new BowlingFrame(0, 2), new BowlingFrame(8, 1),
@@ -78,7 +78,7 @@ To author the code in Intellij, clone this repo and perform the following steps:
 1. Open Intellij and close all projects
 2. From the Welcome to Intellij IDEA popup window, click the Import Project selection
 3. Choose "Import project from external model" choice and click the Gradle model
-4. Chose the "Use gradle wrapper task configuration".  Leave all other choices as their default choice
+4. Choose the bowling-score-keeper/bowling.model folder. Choose the "Use gradle wrapper task configuration".  Leave all other choices as their default choice
 5. Click Finish
 
 # Eclipse Import
@@ -93,3 +93,35 @@ To author the code in Eclipse, clone this repo and perform the following steps:
 
 # Run Unit Tests
 1. Right-click on the src/test/java folder and select the JUnit option.
+
+# Project Structure
+The project includes a single model project, called bowler.model.  The intent of the bowler.model project is to serve as an API for a future GUI project which displays and manages bowling games (similar to what you would see in a bowling alley).  
+
+## gradle
+The project uses Gradle to build and manage its dependencies. When you first open the project in your favorite IDE, invoke gradle refresh (if it doesn't automatically execute) in order to download all dependencies.  Gradle will do all the work, including downloading itself.
+
+The build.gradle file has built in support for code quality checks, such as checkstyle, PMD, and FindBugs.  It also includes the ability to report on code coverage.
+
+You can run the checks by executing this at the terminal within the bowling-score-keeper/bowling.model folder:
+
+```sh
+./gradlew clean check
+```
+
+This executes the checkstyle, PMD, FindBugs, and the unit tests.  You should see "BUILD SUCCESSFUL" if all is good.  The reports are generated within the build/reports folder (checkstyle, findbugs, pmd, tests folders).
+
+You can run the code coverage report by executing this at the terminal within the bowling-score-keeper/bowling.model folder:
+
+```sh
+./gradlew clean test jacocoTestReport
+```
+
+The report is generated within the build/reports/coverage folder.
+
+You can build the project by executing this at the terminal within the bowling-score-keeper/bowling.model folder:
+
+```sh
+./gradlew clean build
+```
+
+This builds a JAR file in the build/libs folder called, bowling.model-1.0.jar. To change the version number on the JAR, change the "version" property set within the build.gradle file.

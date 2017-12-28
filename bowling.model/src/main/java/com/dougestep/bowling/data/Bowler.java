@@ -25,6 +25,7 @@ public class Bowler implements Serializable {
 
     /**
      * Creates an instance of this class.
+     *
      * @param uid unique ID for the bowler.
      */
     public Bowler(final UUID uid) {
@@ -33,9 +34,10 @@ public class Bowler implements Serializable {
 
     /**
      * Creates an instance of this class.
-     * @param uid unique ID for the bowler.
+     *
+     * @param uid       unique ID for the bowler.
      * @param firstName sets the bowlers first name.
-     * @param lastName sets the bowlers last name.
+     * @param lastName  sets the bowlers last name.
      */
     public Bowler(final UUID uid, final String firstName, final String lastName) {
         this(firstName, lastName);
@@ -44,8 +46,9 @@ public class Bowler implements Serializable {
 
     /**
      * Creates an instance of this class.
+     *
      * @param firstName sets the bowlers first name.
-     * @param lastName sets the bowlers last name.
+     * @param lastName  sets the bowlers last name.
      */
     public Bowler(final String firstName, final String lastName) {
         setFirstName(firstName);
@@ -54,6 +57,7 @@ public class Bowler implements Serializable {
 
     /**
      * Returns a {@link UUID} that uniquely identifying this bowler.
+     *
      * @return the UUID.
      */
     public UUID getUid() {
@@ -62,6 +66,7 @@ public class Bowler implements Serializable {
 
     /**
      * Sets the {@link UUID} that uniquely identifying this bowler.
+     *
      * @param uid the UUID.
      */
     public void setUid(final UUID uid) {
@@ -70,6 +75,7 @@ public class Bowler implements Serializable {
 
     /**
      * Returns the bowlers first name.
+     *
      * @return the first name.
      */
     public String getFirstName() {
@@ -78,6 +84,7 @@ public class Bowler implements Serializable {
 
     /**
      * Sets the bowlers first name.
+     *
      * @param firstName the first name.
      */
     public void setFirstName(final String firstName) {
@@ -86,6 +93,7 @@ public class Bowler implements Serializable {
 
     /**
      * Returns the bowlers last name.
+     *
      * @return the last name.
      */
     public String getLastName() {
@@ -94,6 +102,7 @@ public class Bowler implements Serializable {
 
     /**
      * Sets the bowlers last name.
+     *
      * @param lastName the last name.
      */
     public void setLastName(final String lastName) {
@@ -102,8 +111,12 @@ public class Bowler implements Serializable {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
         final Bowler other = (Bowler) obj;
         return Objects.equal(this.uid, other.uid);

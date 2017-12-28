@@ -29,11 +29,16 @@ public class PrintManagerImpl implements PrintManager {
     private static final String STRIKE = "X";
     private static final String BLANK = " ";
     private static final String ZERO_MARK = "-";
+    private static final String NON_NULL_MSG = "expected a non-null reference to %s";
+    /**
+     * 10 points.
+     */
+    private static final int MARK_1 = 10;
 
     @Override
     public void printGames(final Game[] games, final PrintStream out) {
-        Verify.verifyNotNull(games, "expected a non-null reference to %s", "List of GameBeans");
-        Verify.verifyNotNull(out, "expected a non-null reference to %s", "OutputStream");
+        Verify.verifyNotNull(games, NON_NULL_MSG, "List of GameBeans");
+        Verify.verifyNotNull(out, NON_NULL_MSG, "OutputStream");
 
         printHeader(out);
 
@@ -45,40 +50,48 @@ public class PrintManagerImpl implements PrintManager {
 
     @Override
     public void printGame(final Game game, final PrintStream out) {
-        Verify.verifyNotNull(game, "expected a non-null reference to %s", "GameBean");
-        Verify.verifyNotNull(out, "expected a non-null reference to %s", "OutputStream");
+        Verify.verifyNotNull(game, NON_NULL_MSG, "GameBean");
+        Verify.verifyNotNull(out, NON_NULL_MSG, "OutputStream");
 
         printHeader(out);
 
         final String name = getPlayerName(game);
         doPrintGame(name, game, out);
-        
+
         out.print("\nGame: ");
         out.println(game.isComplete() ? "Complete" : "Incomplete");
     }
 
     /**
      * Returns the name of the bowler associated to the supplied game.
+     *
      * @param game the game.
      * @return the name or "" if no name is supplied.
      */
     private String getPlayerName(final Game game) {
         final Bowler player = game.getBowler();
-        String name = "";
+        final StringBuilder name = new StringBuilder();
         if (player != null) {
             if (player.getFirstName() != null) {
-                name = player.getFirstName();
+                name.append(player.getFirstName());
             }
             if (player.getLastName() != null) {
                 if (name.length() > 0) {
-                    name += " ";
+                    name.append(' ');
                 }
-                name += player.getLastName();
+                name.append(player.getLastName());
             }
         }
-        return name;
+        return name.toString();
     }
 
+    /**
+     * Writes the game sheet to the supplied print stream.
+     *
+     * @param name the bowler name.
+     * @param game the game data.
+     * @param out  the print stream.
+     */
     private void doPrintGame(final String name, final Game game, final PrintStream out) {
         out.println(Strings.repeat("-", LINE_LENGTH));
         out.print(Strings.padEnd(name, NAME_PADDING, ' '));
@@ -92,20 +105,21 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the bowling frame header line.
+     *
      * @param out the {@link PrintStream}.
      */
     private void printHeader(final PrintStream out) {
         out.print(Strings.repeat(BLANK, NAME_PADDING));
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= MARK_1; i++) {
             out.print(COL_DELIM);
-            if (i == 10) {
-                out.print(Strings.repeat(BLANK, 7));
+            if (i == MARK_1) {
+                out.print(Strings.repeat(BLANK, 7));//NOCHECKSTYLE
                 out.print("10");
-                out.print(Strings.repeat(BLANK, 8));
+                out.print(Strings.repeat(BLANK, 8));//NOCHECKSTYLE
             } else {
-                out.print(Strings.repeat(BLANK, 5));
+                out.print(Strings.repeat(BLANK, 5));//NOCHECKSTYLE
                 out.print(i);
-                out.print(Strings.repeat(BLANK, 5));
+                out.print(Strings.repeat(BLANK, 5));//NOCHECKSTYLE
             }
         }
         out.print(COL_DELIM);
@@ -114,24 +128,25 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the line that displays the first/second balls.
-     * @param out the {@link PrintStream}.
+     *
+     * @param out    the {@link PrintStream}.
      * @param frames the list of {@link BowlingFrame} elements.
      */
     private void printMarkLine(final PrintStream out, final List<BowlingFrame> frames) {
         int frameNumber = 0;
         for (final BowlingFrame frame : frames) {
             frameNumber++;
-            if (frameNumber < 10) {
+            if (frameNumber < MARK_1) {
                 printMarkLinePreTenthFrame(out, frame);
             } else {
                 printMarkLineTenthFrame(out, frame, frameNumber);
             }
         }
 
+        final BowlingFrame blankFrame = new BowlingFrame(-1, -1);
         frameNumber++;
-        for (; frameNumber <= 10; frameNumber++) {
-            final BowlingFrame blankFrame = new BowlingFrame(-1, -1);
-            if (frameNumber < 10) {
+        for (; frameNumber <= MARK_1; frameNumber++) {
+            if (frameNumber < MARK_1) {
                 printMarkLinePreTenthFrame(out, blankFrame);
             } else {
                 out.print(Strings.repeat(BLANK, MARK_LINE_PADDING));
@@ -145,12 +160,13 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the line that displays the first/second balls for the first 9 frames.
-     * @param out the {@link PrintStream}.
+     *
+     * @param out   the {@link PrintStream}.
      * @param frame the {@link BowlingFrame}.
      */
     private void printMarkLinePreTenthFrame(final PrintStream out, final BowlingFrame frame) {
         final int firstBall = frame.getFirstBall();
-        if (firstBall == 10) {
+        if (firstBall == MARK_1) {
             out.print(Strings.repeat(BLANK, MARK_LINE_STRIKE_PADDING));
             out.print(STRIKE);
             out.print(Strings.repeat(BLANK, MARK_LINE_STRIKE_PADDING));
@@ -172,13 +188,14 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the line that displays the first/second/third balls for the tenth frame.
-     * @param out the {@link PrintStream}.
-     * @param frame the {@link BowlingFrame}.
+     *
+     * @param out         the {@link PrintStream}.
+     * @param frame       the {@link BowlingFrame}.
      * @param frameNumber the frame number.
      */
     private void printMarkLineTenthFrame(final PrintStream out, final BowlingFrame frame, final int frameNumber) {
         final int firstBall = frame.getFirstBall();
-        if (firstBall == 10) {
+        if (firstBall == MARK_1) {
             out.print(Strings.repeat(BLANK, MARK_LINE_PADDING));
             out.print(STRIKE);
             out.print(Strings.repeat(BLANK, MARK_LINE_PADDING));
@@ -188,8 +205,8 @@ public class PrintManagerImpl implements PrintManager {
             printPinFall(out, firstBall, frame.isSplit());
 
             final int secondBall = frame.getSecondBall();
-            
-            if (frameNumber == 10) {
+
+            if (frameNumber == MARK_1) {
                 out.print(Strings.repeat(BLANK, MARK_LINE_PADDING));
                 if (frame.isSpare()) {
                     out.print(SPARE);
@@ -200,11 +217,11 @@ public class PrintManagerImpl implements PrintManager {
                 }
 
                 if (secondBall >= 0 && frame.isOpenFrame()) {
-                    out.print(Strings.repeat(BLANK, MARK_LINE_PADDING + 3));
+                    out.print(Strings.repeat(BLANK, MARK_LINE_PADDING + 3)); //NOCHECKSTYLE
                     out.print(COL_DELIM);
                 }
             }
-            if (frameNumber == 11) {
+            if (frameNumber == MARK_1 + 1) {
                 out.print(Strings.repeat(BLANK, MARK_LINE_PADDING));
                 if (secondBall >= 0 && frame.isSpare()) {
                     out.print(SPARE);
@@ -219,9 +236,10 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the number of pins knocked down.
-     * @param out the {@link PrintStream}.
+     *
+     * @param out     the {@link PrintStream}.
      * @param pinFall the number of pins knocked down.
-     * @param split supply true to indicate the bowler has a split.
+     * @param split   supply true to indicate the bowler has a split.
      */
     private void printPinFall(final PrintStream out, final int pinFall, final boolean split) {
         if (pinFall < 0) {
@@ -244,7 +262,8 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the separation line.
-     * @param out the {@link PrintStream}.
+     *
+     * @param out    the {@link PrintStream}.
      * @param frames the list of {@link BowlingFrame} elements.
      */
     private void printLineSeparator(final PrintStream out, final List<BowlingFrame> frames) {
@@ -256,9 +275,9 @@ public class PrintManagerImpl implements PrintManager {
             frameNumber++;
 
             final int cellSpace;
-            if (frameNumber > 10) {
+            if (frameNumber > MARK_1) {
                 continue;
-            } else if (frameNumber == 10) {
+            } else if (frameNumber == MARK_1) {
                 cellSpace = SCORE_LINE_TENTH_FRAME_CELL_SPACE;
             } else {
                 cellSpace = SCORE_LINE_CELL_SPACE;
@@ -268,11 +287,9 @@ public class PrintManagerImpl implements PrintManager {
             out.print(COL_DELIM);
         }
         frameNumber++;
-        for (; frameNumber <= 10; frameNumber++) {
+        for (; frameNumber <= MARK_1; frameNumber++) {
             final int cellSpace;
-            if (frameNumber > 10) {
-                continue;
-            } else if (frameNumber == 10) {
+            if (frameNumber == MARK_1) {
                 cellSpace = SCORE_LINE_TENTH_FRAME_CELL_SPACE;
             } else {
                 cellSpace = SCORE_LINE_CELL_SPACE;
@@ -285,7 +302,8 @@ public class PrintManagerImpl implements PrintManager {
 
     /**
      * Prints the line that displays the scores for the frames.
-     * @param out the {@link PrintStream}.
+     *
+     * @param out    the {@link PrintStream}.
      * @param frames the list of {@link BowlingFrame} elements.
      */
     private void printScoreLine(final PrintStream out, final List<BowlingFrame> frames) {
@@ -297,9 +315,9 @@ public class PrintManagerImpl implements PrintManager {
             frameNumber++;
 
             final int padding, cellSpace;
-            if (frameNumber > 10) {
+            if (frameNumber > MARK_1) {
                 continue;
-            } else if (frameNumber == 10) {
+            } else if (frameNumber == MARK_1) {
                 cellSpace = SCORE_LINE_TENTH_FRAME_CELL_SPACE;
                 padding = SCORE_LINE_TENTH_FRAME_PADDING;
             } else {
@@ -315,11 +333,9 @@ public class PrintManagerImpl implements PrintManager {
             out.print(COL_DELIM);
         }
         frameNumber++;
-        for (; frameNumber <= 10; frameNumber++) {
+        for (; frameNumber <= MARK_1; frameNumber++) {
             final int cellSpace;
-            if (frameNumber > 10) {
-                continue;
-            } else if (frameNumber == 10) {
+            if (frameNumber == MARK_1) {
                 cellSpace = SCORE_LINE_TENTH_FRAME_CELL_SPACE;
             } else {
                 cellSpace = SCORE_LINE_CELL_SPACE;

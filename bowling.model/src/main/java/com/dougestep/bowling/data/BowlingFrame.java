@@ -13,6 +13,10 @@ import com.google.common.base.Objects;
  */
 public class BowlingFrame implements Serializable {
     private static final long serialVersionUID = 7993320853342434486L;
+    /**
+     * 10 points.
+     */
+    private static final int MARK_1 = 10;
     private UUID uid;
     private int firstBall;
     private int secondBall;
@@ -27,6 +31,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Creates an instance of this class.
+     *
      * @param uid unique ID for the frame.
      */
     public BowlingFrame(final UUID uid) {
@@ -35,6 +40,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Creates an instance of this class.
+     *
      * @param firstBall the number of pins knocked down on the first ball.
      */
     public BowlingFrame(final int firstBall) {
@@ -44,7 +50,8 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Creates an instance of this class.
-     * @param firstBall the number of pins knocked down on the first ball.
+     *
+     * @param firstBall  the number of pins knocked down on the first ball.
      * @param secondBall the number of pins knocked down on the second ball.
      */
     public BowlingFrame(final int firstBall, final int secondBall) {
@@ -54,9 +61,10 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Creates an instance of this class.
-     * @param firstBall the number of pins knocked down on the first ball.
+     *
+     * @param firstBall  the number of pins knocked down on the first ball.
      * @param secondBall the number of pins knocked down on the second ball.
-     * @param split supply true to indicate the bowler threw a split.
+     * @param split      supply true to indicate the bowler threw a split.
      */
     public BowlingFrame(final int firstBall, final int secondBall, final boolean split) {
         this(firstBall);
@@ -66,6 +74,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns a {@link UUID} that uniquely identifying this frame.
+     *
      * @return the UUID.
      */
     public UUID getUid() {
@@ -74,6 +83,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Sets the {@link UUID} that uniquely identifying this frame.
+     *
      * @param uid the UUID.
      */
     public void setUid(final UUID uid) {
@@ -82,6 +92,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns the number of pins knocked down on the first ball.
+     *
      * @return the first ball.
      */
     public int getFirstBall() {
@@ -90,6 +101,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Sets the number of pins knocked down on the first ball. Set to 10 to indicate a strike.
+     *
      * @param firstBall the first ball.
      */
     public void setFirstBall(final int firstBall) {
@@ -98,6 +110,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns the number of pins knocked down on the second ball.
+     *
      * @return the first ball.
      */
     public int getSecondBall() {
@@ -106,6 +119,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Sets the number of pins knocked down on the second ball.
+     *
      * @param secondBall the second ball.
      */
     public void setSecondBall(final int secondBall) {
@@ -114,6 +128,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns the score for this frame.
+     *
      * @return the score.
      */
     public int getScore() {
@@ -122,6 +137,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Sets the score for this frame.
+     *
      * @param score the score.
      */
     public void setScore(final int score) {
@@ -130,22 +146,25 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns true if the bowler scored a strike for this frame (first ball = 10).
+     *
      * @return true if a strike.
      */
     public boolean isStrike() {
-        return firstBall == 10;
+        return firstBall == MARK_1;
     }
 
     /**
      * Returns true if the bowler scored a spare for this frame (first ball != 10 and ball1 + ball2 = 10).
+     *
      * @return true if a strike.
      */
     public boolean isSpare() {
-        return getFrameTotal() == 10 && firstBall != 10;
+        return getFrameTotal() == MARK_1 && firstBall != MARK_1;
     }
 
     /**
      * Returns true if the bowler didn't get a strike or a spare in this frame.
+     *
      * @return true if a spare.
      */
     public boolean isOpenFrame() {
@@ -154,6 +173,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns the sum of the first and second balls for this frame.
+     *
      * @return the frame total.
      */
     public int getFrameTotal() {
@@ -162,6 +182,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Returns true if the bowler threw a split.
+     *
      * @return true if a split.
      */
     public boolean isSplit() {
@@ -170,6 +191,7 @@ public class BowlingFrame implements Serializable {
 
     /**
      * Set to true if the bowler threw a split.
+     *
      * @param split true if a split.
      */
     public void setSplit(final boolean split) {
@@ -178,8 +200,12 @@ public class BowlingFrame implements Serializable {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
         final BowlingFrame other = (BowlingFrame) obj;
         return Objects.equal(this.uid, other.uid);

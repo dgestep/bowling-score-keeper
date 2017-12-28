@@ -1,16 +1,65 @@
 apply plugin: "java"
 apply plugin: "maven"
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
 
 group = "dougestep"
 version = 1.0
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     compile 'com.google.guava:guava:19.0'
 
-    testCompile 'junit:junit:4.9'
+    testCompile 'junit:junit:4.12'
     testCompile 'com.google.guava:guava:19.0'
+}
+
+checkstyle {
+    sourceSets = [project.sourceSets.main]
+    ignoreFailures = false
+    configFile = rootProject.file('config/checkstyle/proj-checkstyle.xml')
+    reportsDir = file("$project.buildDir/reports/checkstyle")
+    showViolations = true
+    toolVersion "8.5"
+}
+
+pmd {
+    ignoreFailures = false
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/pmd")
+    ruleSetFiles = files("config/rulesets/proj-pmd-rules.xml")
+}
+
+findbugs {
+    sourceSets = [sourceSets.main]
+    ignoreFailures = false
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+    reportLevel = "high"
+}
+
+jacoco {
+    reportsDir = file("$project.buildDir/reports/coverage")
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination file("$project.buildDir/reports/coverage")
+    }
+    // exclude these entries from the classpath to not report on them
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/dougestep/bowling/data/**'])
+        })
+    }
 }

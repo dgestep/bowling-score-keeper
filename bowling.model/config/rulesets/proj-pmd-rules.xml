@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="AthenaPMDRules"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd
+http://pmd.sourceforge.net/ruleset/2.0.0 ">
+   <description>PMD Ruleset</description>
+
+   <rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop"/>
+   <rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor"/>
+   <rule ref="rulesets/java/basic.xml/AvoidMultipleUnaryOperators"/>
+   <rule ref="rulesets/java/basic.xml/AvoidThreadGroup"/>
+   <rule ref="rulesets/java/basic.xml/AvoidUsingHardCodedIP"/>
+   <rule ref="rulesets/java/basic.xml/AvoidUsingOctalValues"/>
+   <rule ref="rulesets/java/basic.xml/BigIntegerInstantiation"/>
+   <rule ref="rulesets/java/basic.xml/BooleanInstantiation"/>
+   <rule ref="rulesets/java/basic.xml/BrokenNullCheck"/>
+   <rule ref="rulesets/java/basic.xml/CheckResultSet"/>
+   <rule ref="rulesets/java/basic.xml/CheckSkipResult"/>
+   <rule ref="rulesets/java/basic.xml/ClassCastExceptionWithToArray"/>
+   <rule ref="rulesets/java/basic.xml/CollapsibleIfStatements"/>
+   <rule ref="rulesets/java/basic.xml/DontCallThreadRun"/>
+   <rule ref="rulesets/java/basic.xml/DontUseFloatTypeForLoopIndices"/>
+   <rule ref="rulesets/java/basic.xml/DoubleCheckedLocking"/>
+   <rule ref="rulesets/java/basic.xml/ExtendsObject"/>
+   <rule ref="rulesets/java/basic.xml/ForLoopShouldBeWhileLoop"/>
+   <rule ref="rulesets/java/basic.xml/JumbledIncrementer"/>
+   <rule ref="rulesets/java/basic.xml/MisplacedNullCheck"/>
+   <rule ref="rulesets/java/basic.xml/OverrideBothEqualsAndHashcode"/>
+   <rule ref="rulesets/java/basic.xml/ReturnFromFinallyBlock"/>
+   <rule ref="rulesets/java/basic.xml/UnconditionalIfStatement"/>
+
+   <rule ref="rulesets/java/codesize.xml/ExcessiveClassLength">
+      <properties>
+         <property name="minimum" value="501"/>
+      </properties>
+   </rule>
+
+   <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength">
+      <properties>
+         <property name="minimum" value="56"/>
+      </properties>
+   </rule>
+   <rule ref="rulesets/java/codesize.xml/ExcessiveParameterList">
+      <properties>
+         <property name="minimum" value="5"/>
+      </properties>
+   </rule>
+   <rule ref="rulesets/java/codesize.xml/ExcessivePublicCount">
+      <properties>
+         <property name="minimum" value="20"/>
+      </properties>
+   </rule>
+
+   <rule ref="rulesets/java/codesize.xml/NPathComplexity"/>
+   <rule ref="rulesets/java/codesize.xml/NcssConstructorCount"/>
+   <rule ref="rulesets/java/codesize.xml/NcssMethodCount"/>
+   <rule ref="rulesets/java/codesize.xml/NcssTypeCount"/>
+   <rule ref="rulesets/java/codesize.xml/TooManyFields"/>
+
+   <rule ref="rulesets/java/codesize.xml/TooManyMethods">
+      <properties>
+         <property name="maxmethods" value="35"/>
+      </properties>
+   </rule>
+
+   <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
+   <rule ref="rulesets/java/optimizations.xml/AvoidArrayLoops"/>
+   <rule ref="rulesets/java/optimizations.xml/AvoidInstantiatingObjectsInLoops"/>
+   <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>
+   <rule ref="rulesets/java/optimizations.xml/RedundantFieldInitializer"/>
+   <rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith"/>
+   <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
+   <rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector"/>
+   <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
+   <rule ref="rulesets/java/optimizations.xml/UseStringBufferForStringAppends"/>
+
+   <rule ref="rulesets/java/sunsecure.xml/ArrayIsStoredDirectly"/>
+   <rule ref="rulesets/java/sunsecure.xml/MethodReturnsInternalArray"/>
+
+   <rule ref="rulesets/java/strings.xml/AppendCharacterWithChar"/>
+   <rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals"/>
+   <rule ref="rulesets/java/strings.xml/AvoidStringBufferField"/>
+   <rule ref="rulesets/java/strings.xml/ConsecutiveLiteralAppends"/>
+   <rule ref="rulesets/java/strings.xml/InefficientEmptyStringCheck"/>
+   <rule ref="rulesets/java/strings.xml/InefficientStringBuffering"/>
+   <rule ref="rulesets/java/strings.xml/InsufficientStringBufferDeclaration"/>
+   <rule ref="rulesets/java/strings.xml/StringBufferInstantiationWithChar"/>
+   <rule ref="rulesets/java/strings.xml/StringInstantiation"/>
+   <rule ref="rulesets/java/strings.xml/StringToString"/>
+   <rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange"/>
+   <rule ref="rulesets/java/strings.xml/UseEqualsToCompareStrings"/>
+   <rule ref="rulesets/java/strings.xml/UseIndexOfChar"/>
+   <rule ref="rulesets/java/strings.xml/UseStringBufferLength"/>
+   <rule ref="rulesets/java/strings.xml/UselessStringValueOf"/>
+   <!--
+   <rule ref="rulesets/xsl/xpath.xml/AvoidAxisNavigation"/>
+   <rule ref="rulesets/xsl/xpath.xml/UseConcatOnce"/>
+   -->
+</ruleset>
