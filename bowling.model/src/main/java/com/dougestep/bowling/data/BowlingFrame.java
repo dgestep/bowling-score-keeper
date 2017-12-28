@@ -2,6 +2,7 @@ package com.dougestep.bowling.data;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -11,6 +12,8 @@ import java.util.UUID;
  *
  * @author dougestep
  */
+@SuppressFBWarnings
+@SuppressWarnings("PMD")
 public class BowlingFrame implements Serializable {
     private static final long serialVersionUID = 7993320853342434486L;
     /**

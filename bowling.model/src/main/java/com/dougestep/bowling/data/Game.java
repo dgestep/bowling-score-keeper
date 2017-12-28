@@ -7,12 +7,15 @@ import java.util.UUID;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Represents a bowling game for a particular bowler.
  *
  * @author dougestep
  */
+@SuppressFBWarnings
+@SuppressWarnings("PMD")
 public class Game implements Serializable {
     private static final long serialVersionUID = 751620950527583199L;
     private UUID uid;
