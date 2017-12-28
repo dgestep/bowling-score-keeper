@@ -155,3 +155,12 @@ You can build the project by executing this at the terminal within the bowling-s
 ```
 
 This builds a JAR file in the build/libs folder called, bowling.model-1.5.jar. (At the time of this writing, the version was 1.5). To change the version number on the JAR, change the "version" property within the build.gradle file.
+
+
+You can create the java documentation for the API by executing this at the terminal within the bowling-score-keeper/bowling.model folder:
+
+```sh
+./gradlew clean javadoc
+```
+
+The java documentation is generated within the build/docs/javadoc folder.  Open index.html in your browser to view the documentation.
