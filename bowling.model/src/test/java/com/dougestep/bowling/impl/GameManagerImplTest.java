@@ -1,21 +1,21 @@
 package com.dougestep.bowling.impl;
 
-import org.junit.Test;
-
+import com.dougestep.bowling.GameManager;
 import com.dougestep.bowling.PrintManager;
 import com.dougestep.bowling.data.Bowler;
 import com.dougestep.bowling.data.BowlingFrame;
 import com.dougestep.bowling.data.Game;
 import com.google.common.base.VerifyException;
-
-import junit.framework.Assert;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class GameManagerImplTest {
+    private static final String NL = System.getProperty("line.separator");
 
     @Test
     public void testAddFrameNullFrame() {
         try {
-            GameManagerImpl processor = new GameManagerImpl(new Bowler());
+            GameManager processor = GameManagerImpl.newGame(new Bowler());
             processor.addFrame(null);
         } catch (VerifyException ve) {
             // expected
@@ -26,8 +26,9 @@ public class GameManagerImplTest {
     @Test
     public void testAddFrameToHighScore() {
         try {
-            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
-            processor.addFrame(new BowlingFrame(8,9));
+            Bowler bowler = new Bowler().setFirstName("Joe").setLastName("Morgan");
+            GameManager processor = GameManagerImpl.newGame(bowler);
+            processor.addFrame(new BowlingFrame().setFirstBall(8).setSecondBall(9));
         } catch (VerifyException ve) {
             // expected
             System.out.println(ve.getMessage());
@@ -37,8 +38,9 @@ public class GameManagerImplTest {
     @Test
     public void testAddInvalidFirstBall() {
         try {
-            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
-            processor.addFrame(new BowlingFrame(11,0));
+            Bowler bowler = new Bowler().setFirstName("Joe").setLastName("Morgan");
+            GameManager processor = GameManagerImpl.newGame(bowler);
+            processor.addFrame(new BowlingFrame().setFirstBall(11).setSecondBall(0));
         } catch (VerifyException ve) {
             // expected
             System.out.println(ve.getMessage());
@@ -48,8 +50,9 @@ public class GameManagerImplTest {
     @Test
     public void testAddInvalidSecondBall() {
         try {
-            GameManagerImpl processor = new GameManagerImpl(new Bowler("Joe", "Morgan"));
-            processor.addFrame(new BowlingFrame(0,11));
+            Bowler bowler = new Bowler().setFirstName("Joe").setLastName("Morgan");
+            GameManager processor = GameManagerImpl.newGame(bowler);
+            processor.addFrame(new BowlingFrame().setFirstBall(0).setSecondBall(11));
         } catch (VerifyException ve) {
             // expected
             System.out.println(ve.getMessage());
@@ -58,19 +61,20 @@ public class GameManagerImplTest {
 
     @Test
     public void test123OpenSpareStrike() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Wilma", "Flintstone"));
+        Bowler bowler = new Bowler().setFirstName("Wilma").setLastName("Flintstone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame open1 = new BowlingFrame(8, 1);
+        BowlingFrame open1 = new BowlingFrame().setFirstBall(8).setSecondBall(1);
         processor.addFrame(open1);
         Assert.assertEquals(9, open1.getScore());
         Assert.assertEquals(9, processor.getGame().getScore());
 
-        BowlingFrame spare2 = new BowlingFrame(8, 2);
+        BowlingFrame spare2 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare2);
         Assert.assertEquals(19, spare2.getScore());
         Assert.assertEquals(19, processor.getGame().getScore());
 
-        BowlingFrame strike3 = new BowlingFrame(10, 0);
+        BowlingFrame strike3 = BowlingFrame.strike();
         processor.addFrame(strike3);
 
         // 8-1, 8/2, X
@@ -85,26 +89,27 @@ public class GameManagerImplTest {
         Assert.assertEquals(strike3, processor.getGame().getFrames().get(2));
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test123OpenSpareSpare() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Fred", "Flintstone"));
+        Bowler bowler = new Bowler().setFirstName("Fred").setLastName("Flintstone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame open1 = new BowlingFrame(8, 1);
+        BowlingFrame open1 = new BowlingFrame().setFirstBall(8).setSecondBall(1);
         processor.addFrame(open1);
         Assert.assertEquals(9, open1.getScore());
         Assert.assertEquals(9, processor.getGame().getScore());
 
-        BowlingFrame spare2 = new BowlingFrame(8, 2);
+        BowlingFrame spare2 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare2);
         Assert.assertEquals(19, spare2.getScore());
         Assert.assertEquals(19, processor.getGame().getScore());
 
-        BowlingFrame spare3 = new BowlingFrame(9, 1);
+        BowlingFrame spare3 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
         processor.addFrame(spare3);
         Assert.assertEquals(38, processor.getGame().getScore());
 
@@ -114,26 +119,27 @@ public class GameManagerImplTest {
         Assert.assertEquals(38, spare3.getScore());
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test123OpenSpareOpen() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Barney", "Rubble"));
+        Bowler bowler = new Bowler().setFirstName("Barney").setLastName("Rubble");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame open1 = new BowlingFrame(8, 1);
+        BowlingFrame open1 = new BowlingFrame().setFirstBall(8).setSecondBall(1);
         processor.addFrame(open1);
         Assert.assertEquals(9, open1.getScore());
         Assert.assertEquals(9, processor.getGame().getScore());
 
-        BowlingFrame spare2 = new BowlingFrame(8, 2);
+        BowlingFrame spare2 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare2);
         Assert.assertEquals(19, spare2.getScore());
         Assert.assertEquals(19, processor.getGame().getScore());
 
-        BowlingFrame open3 = new BowlingFrame(9, 0);
+        BowlingFrame open3 = new BowlingFrame().setFirstBall(9).setSecondBall(0);
         processor.addFrame(open3);
         Assert.assertEquals(37, processor.getGame().getScore());
 
@@ -145,26 +151,27 @@ public class GameManagerImplTest {
         Assert.assertEquals(37, processor.getGame().getScore());
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test123StrikeStrikeStrike() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Betty", "Rubble"));
+        Bowler bowler = new Bowler().setFirstName("Betty").setLastName("Rubble");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame strike1 = new BowlingFrame(10);
+        BowlingFrame strike1 = BowlingFrame.strike();
         processor.addFrame(strike1);
         Assert.assertEquals(10, strike1.getScore());
         Assert.assertEquals(10, processor.getGame().getScore());
 
-        BowlingFrame strike2 = new BowlingFrame(10);
+        BowlingFrame strike2 = BowlingFrame.strike();
         processor.addFrame(strike2);
         Assert.assertEquals(30, strike2.getScore());
         Assert.assertEquals(30, processor.getGame().getScore());
 
-        BowlingFrame strike3 = new BowlingFrame(10);
+        BowlingFrame strike3 = BowlingFrame.strike();
         processor.addFrame(strike3);
         Assert.assertEquals(60, processor.getGame().getScore());
 
@@ -176,39 +183,40 @@ public class GameManagerImplTest {
         Assert.assertEquals(60, processor.getGame().getScore());
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test12345SpareStrikeStrikeSpareOpen() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Spock", "Jenkins"));
+        Bowler bowler = new Bowler().setFirstName("Spock").setLastName("Jenkins");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame spare1 = new BowlingFrame(7, 3);
+        BowlingFrame spare1 = new BowlingFrame().setFirstBall(7).setSecondBall(3);
         processor.addFrame(spare1);
         Assert.assertEquals(10, spare1.getScore());
         Assert.assertEquals(10, processor.getGame().getScore());
 
-        BowlingFrame strike2 = new BowlingFrame(10);
+        BowlingFrame strike2 = BowlingFrame.strike();
         processor.addFrame(strike2);
         Assert.assertEquals(20, spare1.getScore());
         Assert.assertEquals(30, strike2.getScore());
         Assert.assertEquals(30, processor.getGame().getScore());
 
-        BowlingFrame strike3 = new BowlingFrame(10);
+        BowlingFrame strike3 = BowlingFrame.strike();
         processor.addFrame(strike3);
         Assert.assertEquals(50, strike3.getScore());
         Assert.assertEquals(50, processor.getGame().getScore());
 
-        BowlingFrame spare4 = new BowlingFrame(8, 2);
+        BowlingFrame spare4 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare4);
         Assert.assertEquals(48, strike2.getScore());
         Assert.assertEquals(68, strike3.getScore());
         Assert.assertEquals(78, spare4.getScore());
         Assert.assertEquals(78, processor.getGame().getScore());
 
-        BowlingFrame open5 = new BowlingFrame(8, 0);
+        BowlingFrame open5 = new BowlingFrame().setFirstBall(8).setSecondBall(0);
         processor.addFrame(open5);
 
         // 7/3, X, X, 8/2, 8-0
@@ -221,34 +229,35 @@ public class GameManagerImplTest {
         Assert.assertEquals(94, processor.getGame().getScore());
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test12345StrikesAndOpen() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Scotty", "Blah"));
+        Bowler bowler = new Bowler().setFirstName("Scotty").setLastName("Blah");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame strike1 = new BowlingFrame(10);
+        BowlingFrame strike1 = BowlingFrame.strike();
         processor.addFrame(strike1);
         Assert.assertEquals(10, strike1.getScore());
         Assert.assertEquals(10, processor.getGame().getScore());
 
-        BowlingFrame strike2 = new BowlingFrame(10);
+        BowlingFrame strike2 = BowlingFrame.strike();
         processor.addFrame(strike2);
         Assert.assertEquals(20, strike1.getScore());
         Assert.assertEquals(30, strike2.getScore());
         Assert.assertEquals(30, processor.getGame().getScore());
 
-        BowlingFrame strike3 = new BowlingFrame(10);
+        BowlingFrame strike3 = BowlingFrame.strike();
         processor.addFrame(strike3);
         Assert.assertEquals(30, strike1.getScore());
         Assert.assertEquals(50, strike2.getScore());
         Assert.assertEquals(60, strike3.getScore());
         Assert.assertEquals(60, processor.getGame().getScore());
 
-        BowlingFrame strike4 = new BowlingFrame(10);
+        BowlingFrame strike4 = BowlingFrame.strike();
         processor.addFrame(strike4);
         Assert.assertEquals(30, strike1.getScore());
         Assert.assertEquals(60, strike2.getScore());
@@ -256,7 +265,8 @@ public class GameManagerImplTest {
         Assert.assertEquals(90, strike4.getScore());
         Assert.assertEquals(90, processor.getGame().getScore());
 
-        BowlingFrame open5 = new BowlingFrame(8, 0);
+        BowlingFrame open5 = new BowlingFrame().setFirstBall(8).setSecondBall(0);
+        ;
         processor.addFrame(open5);
 
         // X, X, X, X, 8-0
@@ -269,28 +279,29 @@ public class GameManagerImplTest {
         Assert.assertEquals(114, processor.getGame().getScore());
         Assert.assertFalse(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikesOpenInFifth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Leonard", "McCoy"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(8, 0);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(10);
-        BowlingFrame frame12 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Leonard").setLastName("McCoy");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = new BowlingFrame().setFirstBall(8).setSecondBall(0);
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = BowlingFrame.strike();
+        BowlingFrame frame12 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -306,26 +317,27 @@ public class GameManagerImplTest {
         Assert.assertEquals(264, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikesOpenInTenth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Bam Bam", "Rubble"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(10);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(9, 0);
+        Bowler bowler = new Bowler().setFirstName("Bam Bam").setLastName("Rubble");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = BowlingFrame.strike();
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = new BowlingFrame().setFirstBall(9).setSecondBall(0);
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -341,27 +353,28 @@ public class GameManagerImplTest {
         Assert.assertEquals(267, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikesStrikeSpareInTenth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Pebbles", "Flintstone"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(10);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(8, 2, true);
+        Bowler bowler = new Bowler().setFirstName("Pebbles").setLastName("Flintstone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = BowlingFrame.strike();
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = new BowlingFrame().setFirstBall(8).setSecondBall(2).setSplit(true);
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -377,27 +390,28 @@ public class GameManagerImplTest {
         Assert.assertEquals(288, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikesSpareStrikeInTenth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Robert", "Barone"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(10);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(9, 1);
-        BowlingFrame frame11 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Robert").setLastName("Barone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = BowlingFrame.strike();
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame11 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -413,28 +427,29 @@ public class GameManagerImplTest {
         Assert.assertEquals(279, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikes() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Raymond", "Barone"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(10);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(10);
-        BowlingFrame frame12 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Raymond").setLastName("Barone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = BowlingFrame.strike();
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = BowlingFrame.strike();
+        BowlingFrame frame12 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -450,27 +465,28 @@ public class GameManagerImplTest {
         Assert.assertEquals(300, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikeNineSpare() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("James", "Kirk"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(9, 1);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(9, 1);
-        BowlingFrame frame5 = new BowlingFrame(10);
-        BowlingFrame frame6 = new BowlingFrame(9, 1);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(9, 1);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(9, 1);
-        BowlingFrame frame11 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("James").setLastName("Kirk");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame5 = BowlingFrame.strike();
+        BowlingFrame frame6 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame11 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11};
         processor.addFrames(frames);
         Assert.assertEquals(20, frame1.getScore());
         Assert.assertEquals(40, frame2.getScore());
@@ -486,26 +502,27 @@ public class GameManagerImplTest {
         Assert.assertEquals(200, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllGutterBalls() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Marie", "Barone"));
-        BowlingFrame frame1 = new BowlingFrame();
-        BowlingFrame frame2 = new BowlingFrame();
-        BowlingFrame frame3 = new BowlingFrame();
-        BowlingFrame frame4 = new BowlingFrame();
-        BowlingFrame frame5 = new BowlingFrame();
-        BowlingFrame frame6 = new BowlingFrame();
-        BowlingFrame frame7 = new BowlingFrame();
-        BowlingFrame frame8 = new BowlingFrame();
-        BowlingFrame frame9 = new BowlingFrame();
-        BowlingFrame frame10 = new BowlingFrame();
+        Bowler bowler = new Bowler().setFirstName("Marie").setLastName("Barone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.gutterFrame();
+        BowlingFrame frame2 = BowlingFrame.gutterFrame();
+        BowlingFrame frame3 = BowlingFrame.gutterFrame();
+        BowlingFrame frame4 = BowlingFrame.gutterFrame();
+        BowlingFrame frame5 = BowlingFrame.gutterFrame();
+        BowlingFrame frame6 = BowlingFrame.gutterFrame();
+        BowlingFrame frame7 = BowlingFrame.gutterFrame();
+        BowlingFrame frame8 = BowlingFrame.gutterFrame();
+        BowlingFrame frame9 = BowlingFrame.gutterFrame();
+        BowlingFrame frame10 = BowlingFrame.gutterFrame();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10};
         processor.addFrames(frames);
         Assert.assertEquals(0, frame1.getScore());
         Assert.assertEquals(0, frame2.getScore());
@@ -521,28 +538,29 @@ public class GameManagerImplTest {
         Assert.assertEquals(0, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllGutterBallsStrikeOutInTenth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Frank", "Barone"));
-        BowlingFrame frame1 = new BowlingFrame();
-        BowlingFrame frame2 = new BowlingFrame();
-        BowlingFrame frame3 = new BowlingFrame();
-        BowlingFrame frame4 = new BowlingFrame();
-        BowlingFrame frame5 = new BowlingFrame();
-        BowlingFrame frame6 = new BowlingFrame();
-        BowlingFrame frame7 = new BowlingFrame();
-        BowlingFrame frame8 = new BowlingFrame();
-        BowlingFrame frame9 = new BowlingFrame();
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(10);
-        BowlingFrame frame12 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Frank").setLastName("Barone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.gutterFrame();
+        BowlingFrame frame2 = BowlingFrame.gutterFrame();
+        BowlingFrame frame3 = BowlingFrame.gutterFrame();
+        BowlingFrame frame4 = BowlingFrame.gutterFrame();
+        BowlingFrame frame5 = BowlingFrame.gutterFrame();
+        BowlingFrame frame6 = BowlingFrame.gutterFrame();
+        BowlingFrame frame7 = BowlingFrame.gutterFrame();
+        BowlingFrame frame8 = BowlingFrame.gutterFrame();
+        BowlingFrame frame9 = BowlingFrame.gutterFrame();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = BowlingFrame.strike();
+        BowlingFrame frame12 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12};
         processor.addFrames(frames);
         Assert.assertEquals(0, frame1.getScore());
         Assert.assertEquals(0, frame2.getScore());
@@ -558,28 +576,29 @@ public class GameManagerImplTest {
         Assert.assertEquals(30, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikeFirstFrameAllGutterBallsStrikeOutInTenth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Alley", "Barone"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame();
-        BowlingFrame frame3 = new BowlingFrame();
-        BowlingFrame frame4 = new BowlingFrame();
-        BowlingFrame frame5 = new BowlingFrame();
-        BowlingFrame frame6 = new BowlingFrame();
-        BowlingFrame frame7 = new BowlingFrame();
-        BowlingFrame frame8 = new BowlingFrame();
-        BowlingFrame frame9 = new BowlingFrame();
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(10);
-        BowlingFrame frame12 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Alley").setLastName("Barone");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.gutterFrame();
+        BowlingFrame frame3 = BowlingFrame.gutterFrame();
+        BowlingFrame frame4 = BowlingFrame.gutterFrame();
+        BowlingFrame frame5 = BowlingFrame.gutterFrame();
+        BowlingFrame frame6 = BowlingFrame.gutterFrame();
+        BowlingFrame frame7 = BowlingFrame.gutterFrame();
+        BowlingFrame frame8 = BowlingFrame.gutterFrame();
+        BowlingFrame frame9 = BowlingFrame.gutterFrame();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = BowlingFrame.strike();
+        BowlingFrame frame12 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12};
         processor.addFrames(frames);
         Assert.assertEquals(10, frame1.getScore());
         Assert.assertEquals(10, frame2.getScore());
@@ -595,28 +614,29 @@ public class GameManagerImplTest {
         Assert.assertEquals(40, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testAllStrikeNineSpareInFifth() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Sam", "Estep"));
-        BowlingFrame frame1 = new BowlingFrame(10);
-        BowlingFrame frame2 = new BowlingFrame(10);
-        BowlingFrame frame3 = new BowlingFrame(10);
-        BowlingFrame frame4 = new BowlingFrame(10);
-        BowlingFrame frame5 = new BowlingFrame(9, 1);
-        BowlingFrame frame6 = new BowlingFrame(10);
-        BowlingFrame frame7 = new BowlingFrame(10);
-        BowlingFrame frame8 = new BowlingFrame(10);
-        BowlingFrame frame9 = new BowlingFrame(10);
-        BowlingFrame frame10 = new BowlingFrame(10);
-        BowlingFrame frame11 = new BowlingFrame(10);
-        BowlingFrame frame12 = new BowlingFrame(10);
+        Bowler bowler = new Bowler().setFirstName("Sam").setLastName("Estep");
+        GameManager processor = GameManagerImpl.newGame(bowler);
+        BowlingFrame frame1 = BowlingFrame.strike();
+        BowlingFrame frame2 = BowlingFrame.strike();
+        BowlingFrame frame3 = BowlingFrame.strike();
+        BowlingFrame frame4 = BowlingFrame.strike();
+        BowlingFrame frame5 = new BowlingFrame().setFirstBall(9).setSecondBall(1);
+        BowlingFrame frame6 = BowlingFrame.strike();
+        BowlingFrame frame7 = BowlingFrame.strike();
+        BowlingFrame frame8 = BowlingFrame.strike();
+        BowlingFrame frame9 = BowlingFrame.strike();
+        BowlingFrame frame10 = BowlingFrame.strike();
+        BowlingFrame frame11 = BowlingFrame.strike();
+        BowlingFrame frame12 = BowlingFrame.strike();
 
-        BowlingFrame[] frames = { frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12 };
+        BowlingFrame[] frames = {frame1, frame2, frame3, frame4, frame5, frame6, frame7, frame8, frame9, frame10, frame11, frame12};
         processor.addFrames(frames);
         Assert.assertEquals(30, frame1.getScore());
         Assert.assertEquals(60, frame2.getScore());
@@ -632,46 +652,96 @@ public class GameManagerImplTest {
         Assert.assertEquals(279, processor.getGame().getScore());
         Assert.assertTrue(processor.getGame().isComplete());
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void testPrintMultipleGames() {
-        GameManagerImpl game1 = new GameManagerImpl(new Bowler("Christene", "Kuhn"));
-        game1.addFrames(new BowlingFrame[] { new BowlingFrame(0, 2), new BowlingFrame(8, 1), new BowlingFrame(7, 2), new BowlingFrame(10), new BowlingFrame(5, 2), new BowlingFrame(9, 0), new BowlingFrame(6, 3), new BowlingFrame(7, 3), new BowlingFrame(9, 0), new BowlingFrame(8, 1) });
+        Bowler christene = new Bowler().setFirstName("Christene").setLastName("Kuhn");
+        Game game1 = GameManagerImpl.newGame(christene)
+                .addFrame(new BowlingFrame(0, 2))
+                .addFrame(new BowlingFrame(8, 1))
+                .addFrame(new BowlingFrame(7, 2))
+                .addFrame(BowlingFrame.strike())
+                .addFrame(new BowlingFrame(5, 2))
+                .addFrame(new BowlingFrame(9, 0))
+                .addFrame(new BowlingFrame(6, 3))
+                .addFrame(new BowlingFrame(7, 3))
+                .addFrame(new BowlingFrame(9, 0))
+                .addFrame(new BowlingFrame(8, 1))
+                .getGame();
 
-        GameManagerImpl game2 = new GameManagerImpl(new Bowler("Chris", "Kuhn"));
-        game2.addFrames(new BowlingFrame[] { new BowlingFrame(10), new BowlingFrame(10), new BowlingFrame(7, 2), new BowlingFrame(8, 0), new BowlingFrame(9, 1), new BowlingFrame(9, 1), new BowlingFrame(6, 3), new BowlingFrame(7, 3), new BowlingFrame(9, 0), new BowlingFrame(8, 2, true), new BowlingFrame(10) });
+        Bowler chris = new Bowler().setFirstName("Chris").setLastName("Kuhn");
+        Game game2 = GameManagerImpl.newGame(chris)
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.strike())
+                .addFrame(new BowlingFrame(7, 2))
+                .addFrame(new BowlingFrame(8, 0))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(new BowlingFrame(6, 3))
+                .addFrame(new BowlingFrame(7, 3))
+                .addFrame(new BowlingFrame(9, 0))
+                .addFrame(new BowlingFrame(8, 2).setSplit(true))
+                .addFrame(BowlingFrame.strike())
+                .getGame();
 
-        GameManagerImpl game3 = new GameManagerImpl(new Bowler("Gwen", "Estep"));
-        game3.addFrames(new BowlingFrame[] { new BowlingFrame(8, 1), new BowlingFrame(9, 0), new BowlingFrame(10), new BowlingFrame(6, 2), new BowlingFrame(7, 2), new BowlingFrame(7, 3), new BowlingFrame(3, 5), new BowlingFrame(0, 7), new BowlingFrame(9, 1), new BowlingFrame(10), new BowlingFrame(10), new BowlingFrame(6) });
+        Bowler gwen = new Bowler().setFirstName("Gwen").setLastName("Estep");
+        Game game3 = GameManagerImpl.newGame(gwen)
+                .addFrame(new BowlingFrame(8, 1))
+                .addFrame(new BowlingFrame(9, 0))
+                .addFrame(BowlingFrame.strike())
+                .addFrame(new BowlingFrame(6, 2))
+                .addFrame(new BowlingFrame(7, 2))
+                .addFrame(new BowlingFrame(7, 3))
+                .addFrame(new BowlingFrame(3, 5))
+                .addFrame(new BowlingFrame(0, 7))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.oneBall(6))
+                .getGame();
 
-        GameManagerImpl game4 = new GameManagerImpl(new Bowler("Doug", "Estep"));
-        game4.addFrames(new BowlingFrame[] { new BowlingFrame(10), new BowlingFrame(10), new BowlingFrame(10), new BowlingFrame(9, 1), new BowlingFrame(9, 1), new BowlingFrame(8, 1, true), new BowlingFrame(8, 2), new BowlingFrame(9, 1), new BowlingFrame(9, 1), new BowlingFrame(10), new BowlingFrame(10), new BowlingFrame(9) });
+        Bowler doug = new Bowler().setFirstName("Doug").setLastName("Estep");
+        Game game4 = GameManagerImpl.newGame(doug)
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.strike())
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(new BowlingFrame(8, 1).setSplit(true))
+                .addFrame(new BowlingFrame(8, 2))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(new BowlingFrame(9, 1))
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.strike())
+                .addFrame(BowlingFrame.oneBall(9))
+                .getGame();
 
-        PrintManager printManager = new PrintManagerImpl();
-        Game[] games = { game1.getGame(), game2.getGame(), game3.getGame(), game4.getGame() };
+        PrintManager printManager = PrintManagerImpl.newInstance();
+        Game[] games = {game1, game2, game3, game4};
         printManager.printGames(games, System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test12OpenSpareCorrectSpareToOpen() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Natalie", "Estep"));
+        Bowler bowler = new Bowler().setFirstName("Natalie").setLastName("Estep");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
         BowlingFrame open1 = new BowlingFrame(8, 1, true);
         processor.addFrame(open1);
         Assert.assertEquals(9, open1.getScore());
         Assert.assertEquals(9, processor.getGame().getScore());
 
-        BowlingFrame spare2 = new BowlingFrame(8, 2);
+        BowlingFrame spare2 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare2);
         Assert.assertEquals(19, spare2.getScore());
         Assert.assertEquals(19, processor.getGame().getScore());
 
-        BowlingFrame correctedSpare = new BowlingFrame(8, 1);
+        BowlingFrame correctedSpare = new BowlingFrame().setFirstBall(8).setSecondBall(1);
         processor.replaceFrame(2, correctedSpare);
 
         Assert.assertEquals(18, processor.getGame().getScore());
@@ -680,21 +750,22 @@ public class GameManagerImplTest {
         Assert.assertEquals(open1, processor.getGame().getFrames().get(0));
         Assert.assertEquals(correctedSpare, processor.getGame().getFrames().get(1));
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 
     @Test
     public void test12OpenSpareRemoveSpare() {
-        GameManagerImpl processor = new GameManagerImpl(new Bowler("Gwen", "Estep"));
+        Bowler bowler = new Bowler().setFirstName("Gwen").setLastName("Estep");
+        GameManager processor = GameManagerImpl.newGame(bowler);
 
-        BowlingFrame open1 = new BowlingFrame(8, 1);
+        BowlingFrame open1 = new BowlingFrame().setFirstBall(8).setSecondBall(1);
         processor.addFrame(open1);
         Assert.assertEquals(9, open1.getScore());
         Assert.assertEquals(9, processor.getGame().getScore());
 
-        BowlingFrame spare2 = new BowlingFrame(8, 2);
+        BowlingFrame spare2 = new BowlingFrame().setFirstBall(8).setSecondBall(2);
         processor.addFrame(spare2);
         Assert.assertEquals(19, spare2.getScore());
         Assert.assertEquals(19, processor.getGame().getScore());
@@ -707,8 +778,8 @@ public class GameManagerImplTest {
 
         Assert.assertEquals(open1, processor.getGame().getFrames().get(0));
 
-        PrintManager printManager = new PrintManagerImpl();
+        PrintManager printManager = PrintManagerImpl.newInstance();
         printManager.printGame(processor.getGame(), System.out);
-        System.out.println("\n");
+        System.out.println(NL);
     }
 }

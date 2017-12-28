@@ -1,10 +1,10 @@
 package com.dougestep.bowling.data;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Represents a bowling frame.
@@ -24,18 +24,37 @@ public class BowlingFrame implements Serializable {
     private boolean split;
 
     /**
-     * Creates an instance of this class.
+     * Returns an instance of this frame which represents a strike.
+     *
+     * @return returns a strike frame.
      */
-    public BowlingFrame() {
+    public static BowlingFrame strike() {
+        return new BowlingFrame().setFirstBall(MARK_1);
+    }
+
+    /**
+     * Returns an instance of this frame which represents a strike.
+     *
+     * @param ball the single ball for this frame.
+     * @return returns the frame.
+     */
+    public static BowlingFrame oneBall(final int ball) {
+        return new BowlingFrame().setFirstBall(ball);
+    }
+
+    /**
+     * Returns an instance of this frame which represents two gutter balls.
+     *
+     * @return returns the frame.
+     */
+    public static BowlingFrame gutterFrame() {
+        return new BowlingFrame();
     }
 
     /**
      * Creates an instance of this class.
-     *
-     * @param uid unique ID for the frame.
      */
-    public BowlingFrame(final UUID uid) {
-        setUid(uid);
+    public BowlingFrame() {
     }
 
     /**
@@ -85,9 +104,11 @@ public class BowlingFrame implements Serializable {
      * Sets the {@link UUID} that uniquely identifying this frame.
      *
      * @param uid the UUID.
+     * @return returns this instance.
      */
-    public void setUid(final UUID uid) {
+    public BowlingFrame setUid(final UUID uid) {
         this.uid = uid;
+        return this;
     }
 
     /**
@@ -103,9 +124,11 @@ public class BowlingFrame implements Serializable {
      * Sets the number of pins knocked down on the first ball. Set to 10 to indicate a strike.
      *
      * @param firstBall the first ball.
+     * @return returns this instance.
      */
-    public void setFirstBall(final int firstBall) {
+    public BowlingFrame setFirstBall(final int firstBall) {
         this.firstBall = firstBall;
+        return this;
     }
 
     /**
@@ -121,9 +144,11 @@ public class BowlingFrame implements Serializable {
      * Sets the number of pins knocked down on the second ball.
      *
      * @param secondBall the second ball.
+     * @return returns this instance.
      */
-    public void setSecondBall(final int secondBall) {
+    public BowlingFrame setSecondBall(final int secondBall) {
         this.secondBall = secondBall;
+        return this;
     }
 
     /**
@@ -139,9 +164,11 @@ public class BowlingFrame implements Serializable {
      * Sets the score for this frame.
      *
      * @param score the score.
+     * @return returns this instance.
      */
-    public void setScore(final int score) {
+    public BowlingFrame setScore(final int score) {
         this.score = score;
+        return this;
     }
 
     /**
@@ -193,9 +220,11 @@ public class BowlingFrame implements Serializable {
      * Set to true if the bowler threw a split.
      *
      * @param split true if a split.
+     * @return returns this instance.
      */
-    public void setSplit(final boolean split) {
+    public BowlingFrame setSplit(final boolean split) {
         this.split = split;
+        return this;
     }
 
     @Override

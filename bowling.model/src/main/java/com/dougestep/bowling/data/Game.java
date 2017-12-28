@@ -28,15 +28,6 @@ public class Game implements Serializable {
     }
 
     /**
-     * Creates an instance of this class.
-     *
-     * @param uid unique ID for the game.
-     */
-    public Game(final UUID uid) {
-        setUid(uid);
-    }
-
-    /**
      * Returns a {@link UUID} that uniquely identifying this game.
      *
      * @return the UUID.
@@ -49,9 +40,11 @@ public class Game implements Serializable {
      * Sets the {@link UUID} that uniquely identifying this game.
      *
      * @param uid the UUID.
+     * @return returns this instance.
      */
-    public void setUid(final UUID uid) {
+    public Game setUid(final UUID uid) {
         this.uid = uid;
+        return this;
     }
 
     /**
@@ -67,21 +60,25 @@ public class Game implements Serializable {
      * Sets the list of bowling frames recorded for this game.
      *
      * @param frames the bowling frames.
+     * @return returns this instance.
      */
-    public void setFrames(final List<BowlingFrame> frames) {
+    public Game setFrames(final List<BowlingFrame> frames) {
         this.frames = frames;
+        return this;
     }
 
     /**
      * Adds the supplied bowling frame to the list of bowling frames recorded for this game.
      *
      * @param frame the bowling frame.
+     * @return returns this instance.
      */
-    public void addFrame(final BowlingFrame frame) {
+    public Game addFrame(final BowlingFrame frame) {
         if (frames == null) {
             frames = new ArrayList<>();
         }
         frames.add(frame);
+        return this;
     }
 
     /**
@@ -117,9 +114,11 @@ public class Game implements Serializable {
      * Sets the score for this game.
      *
      * @param score the score.
+     * @return returns this instance.
      */
-    public void setScore(final int score) {
+    public Game setScore(final int score) {
         this.score = score;
+        return this;
     }
 
     /**
@@ -135,9 +134,11 @@ public class Game implements Serializable {
      * Set to true to indicate that this game has completed.
      *
      * @param complete true if completed.
+     * @return returns this instance.
      */
-    public void setComplete(final boolean complete) {
+    public Game setComplete(final boolean complete) {
         this.complete = complete;
+        return this;
     }
 
     /**
@@ -153,9 +154,11 @@ public class Game implements Serializable {
      * Sets the bowler that is bowling in this game.
      *
      * @param bowler the bowler.
+     * @return returns this instance.
      */
-    public void setBowler(final Bowler bowler) {
+    public Game setBowler(final Bowler bowler) {
         this.bowler = bowler;
+        return this;
     }
 
     @Override

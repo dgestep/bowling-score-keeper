@@ -1,10 +1,10 @@
 package com.dougestep.bowling.data;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Represents a bowler.
@@ -21,38 +21,6 @@ public class Bowler implements Serializable {
      * Creates an instance of this class.
      */
     public Bowler() {
-    }
-
-    /**
-     * Creates an instance of this class.
-     *
-     * @param uid unique ID for the bowler.
-     */
-    public Bowler(final UUID uid) {
-        setUid(uid);
-    }
-
-    /**
-     * Creates an instance of this class.
-     *
-     * @param uid       unique ID for the bowler.
-     * @param firstName sets the bowlers first name.
-     * @param lastName  sets the bowlers last name.
-     */
-    public Bowler(final UUID uid, final String firstName, final String lastName) {
-        this(firstName, lastName);
-        setUid(uid);
-    }
-
-    /**
-     * Creates an instance of this class.
-     *
-     * @param firstName sets the bowlers first name.
-     * @param lastName  sets the bowlers last name.
-     */
-    public Bowler(final String firstName, final String lastName) {
-        setFirstName(firstName);
-        setLastName(lastName);
     }
 
     /**
@@ -86,9 +54,11 @@ public class Bowler implements Serializable {
      * Sets the bowlers first name.
      *
      * @param firstName the first name.
+     * @return this instance.
      */
-    public void setFirstName(final String firstName) {
+    public Bowler setFirstName(final String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     /**
@@ -104,9 +74,11 @@ public class Bowler implements Serializable {
      * Sets the bowlers last name.
      *
      * @param lastName the last name.
+     * @return this instance.
      */
-    public void setLastName(final String lastName) {
+    public Bowler setLastName(final String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     @Override

@@ -1,21 +1,21 @@
 package com.dougestep.bowling.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import com.dougestep.bowling.GameManager;
 import com.dougestep.bowling.data.Bowler;
 import com.dougestep.bowling.data.BowlingFrame;
 import com.dougestep.bowling.data.Game;
 import com.google.common.base.Verify;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
  * Manages a bowling game.
  *
  * @author dougestep
  */
-public class GameManagerImpl implements GameManager {
+public final class GameManagerImpl implements GameManager {
     private final Game game;
     private final Map<Integer, BowlingFrame> frames;
     /**
@@ -46,31 +46,43 @@ public class GameManagerImpl implements GameManager {
      *
      * @param player the bowler.
      */
-    public GameManagerImpl(final Bowler player) {
+    private GameManagerImpl(final Bowler player) {
         frames = new HashMap<>();
-        game = new Game(UUID.randomUUID());
+        game = new Game().setUid(UUID.randomUUID());
         game.setBowler(player);
     }
 
+    /**
+     * Creates an instance of this class.
+     *
+     * @param player the bowler.
+     * @return the instance.
+     */
+    public static GameManager newGame(final Bowler player) {
+        return new GameManagerImpl(player);
+    }
+
     @Override
-    public void addFrames(final BowlingFrame[] frames) {
+    public GameManager addFrames(final BowlingFrame[] frames) {
         if (frames == null || frames.length == 0) {
-            return;
+            return this;
         }
 
         for (final BowlingFrame frame : frames) {
             addFrame(frame);
         }
+
+        return this;
     }
 
     @Override
-    public void addFrame(final BowlingFrame frame) {
+    public GameManager addFrame(final BowlingFrame frame) {
         assertValidFrame(frame);
 
         final int frameNumber = frames.size() + 1;
         frames.put(frameNumber, frame);
 
-        calculateScore();
+        return calculateScore();
     }
 
     /**
@@ -91,7 +103,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void calculateScore() {
+    public GameManager calculateScore() {
         final int topFrame = frames.size();
         for (int frameNumber = 1; frameNumber <= topFrame; frameNumber++) {
             final BowlingFrame currentFrame = frames.get(frameNumber);
@@ -106,6 +118,8 @@ public class GameManagerImpl implements GameManager {
 
         setFramesToGame();
         setFinishedGameProperties();
+
+        return this;
     }
 
     /**
@@ -256,7 +270,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void replaceFrame(final int frameNumber, final BowlingFrame frame) {
+    public GameManager replaceFrame(final int frameNumber, final BowlingFrame frame) {
         final BowlingFrame retrFrame = retrieveFrame(frameNumber);
         Verify.verify(retrFrame != null, "Frame not found for frame number %s", frameNumber);
 
@@ -264,19 +278,19 @@ public class GameManagerImpl implements GameManager {
 
         frames.put(frameNumber, frame);
 
-        calculateScore();
+        return calculateScore();
     }
 
     @Override
-    public void deleteFrame(final int frameNumber) {
+    public GameManager deleteFrame(final int frameNumber) {
         final BowlingFrame frame = retrieveFrame(frameNumber);
         if (frame == null) {
-            return;
+            return this;
         }
 
         frames.remove(frameNumber);
 
-        calculateScore();
+        return calculateScore();
     }
 
     @Override

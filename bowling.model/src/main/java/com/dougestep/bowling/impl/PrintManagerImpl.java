@@ -1,8 +1,5 @@
 package com.dougestep.bowling.impl;
 
-import java.io.PrintStream;
-import java.util.List;
-
 import com.dougestep.bowling.PrintManager;
 import com.dougestep.bowling.data.Bowler;
 import com.dougestep.bowling.data.BowlingFrame;
@@ -10,12 +7,15 @@ import com.dougestep.bowling.data.Game;
 import com.google.common.base.Strings;
 import com.google.common.base.Verify;
 
+import java.io.PrintStream;
+import java.util.List;
+
 /**
  * Manages the printing of a bowling game.
  *
  * @author dougestep
  */
-public class PrintManagerImpl implements PrintManager {
+public final class PrintManagerImpl implements PrintManager {
     private static final String COL_DELIM = "|";
     private static final int LINE_LENGTH = 147;
     private static final int NAME_PADDING = 20;
@@ -34,6 +34,21 @@ public class PrintManagerImpl implements PrintManager {
      * 10 points.
      */
     private static final int MARK_1 = 10;
+
+    /**
+     * Default constructor.
+     */
+    private PrintManagerImpl() {
+    }
+
+    /**
+     * Returns an instance of this class.
+     *
+     * @return the instance.
+     */
+    public static PrintManager newInstance() {
+        return new PrintManagerImpl();
+    }
 
     @Override
     public void printGames(final Game[] games, final PrintStream out) {
@@ -143,7 +158,7 @@ public class PrintManagerImpl implements PrintManager {
             }
         }
 
-        final BowlingFrame blankFrame = new BowlingFrame(-1, -1);
+        final BowlingFrame blankFrame = new BowlingFrame().setFirstBall(-1).setSecondBall(-1);
         frameNumber++;
         for (; frameNumber <= MARK_1; frameNumber++) {
             if (frameNumber < MARK_1) {
