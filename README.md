@@ -106,8 +106,9 @@ To author the code in Intellij, clone this repo and perform the following steps:
 
 1. Open Intellij and close all projects
 2. From the Welcome to Intellij IDEA popup window, click the Import Project selection
-3. Choose "Import project from external model" choice and click the Gradle model
-4. Choose the bowling-score-keeper/bowling.model folder. Choose the "Use gradle wrapper task configuration".  Leave all other choices as their default choice
+3. Choose the bowling-score-keeper/bowling.model folder.
+3. Choose "Import project from external model" choice and click the Gradle model. Click Next.
+4. Choose the "Use gradle wrapper task configuration".  Leave all other choices as their default choice
 5. Click Finish
 
 # Eclipse Import
