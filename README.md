@@ -17,7 +17,7 @@ game.addFrame(new BowlingFrame(8, 1)); // open
 System.out.println(game.getGame().getScore()); // 39
 
 // produces a bowling score card
-PrintManager printManager = PrintManagerImpl.newGame();
+PrintManager printManager = PrintManagerImpl.newInstance();
 printManager.printGame(processor.getGame(), System.out);
 ```
 
@@ -92,7 +92,7 @@ Game game4 = GameManagerImpl.newGame(doug)
         .addFrame(BowlingFrame.oneBall(9))
         .getGame();
 
-PrintManager printManager = PrintManagerImpl.newGame();
+PrintManager printManager = PrintManagerImpl.newInstance();
 Game[] games = {game1, game2, game3, game4};
 printManager.printGames(games, System.out);
 
