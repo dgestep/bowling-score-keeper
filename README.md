@@ -98,7 +98,8 @@ printManager.printGames(games, System.out);
 
 // produces a score card with 4 games
 
-![Game Screen Shot.](./game.png)
+![Game Screen Shot.]
+(https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
 
 
 // Christene Kuhn scores a 99
