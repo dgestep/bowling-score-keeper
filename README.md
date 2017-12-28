@@ -97,15 +97,9 @@ Game[] games = {game1, game2, game3, game4};
 printManager.printGames(games, System.out);
 
 // produces a score card with 4 games
-
-// Christene Kuhn scores a 99
-// Chris Kuhn scores a 155
-// Gwen Estep scores a 127
-// Doug Estep score a 212.
 ```
 
-![Game Screen Shot](https://github.com/dgestep/bowling-score-keeper/blob/master/game.png)
-
+![Game Screen Shot](game.png)
 
 # Intellij Import
 To author the code in Intellij, clone this repo and perform the following steps:
